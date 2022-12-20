@@ -16,6 +16,7 @@ public class AuthorizerController {
 
     @PostMapping("/cartoes")
     public ResponseEntity<CardData> cards(@RequestBody CardData body) throws Exception {
-        return ResponseEntity.ok(createCardService.process(body));
+        createCardService.process(body);
+        return ResponseEntity.ok(body);
     }
 }

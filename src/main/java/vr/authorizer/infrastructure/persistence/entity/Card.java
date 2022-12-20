@@ -3,7 +3,6 @@ package vr.authorizer.infrastructure.persistence.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import vr.authorizer.domain.createcard.model.CardData;
 
 import javax.persistence.*;
 
@@ -26,15 +25,13 @@ public class Card {
     public Card() {
     }
 
-    ;
-
     public Card(String number, String password) {
         this.number = number;
         this.password = password;
     }
 
     // Gosto de adotar o design pattern Factory Method para a criação e conversão de tipos e classes.
-    public static Card fromCardData(CardData cardData) {
-        return new Card(cardData.getNumber(), cardData.getPassword());
+    public static Card fromNumberAndPassword(String number, String password) {
+        return new Card(number, password);
     }
 }

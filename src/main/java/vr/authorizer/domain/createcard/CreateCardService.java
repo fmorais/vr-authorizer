@@ -1,6 +1,7 @@
 package vr.authorizer.domain.createcard;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import vr.authorizer.domain.createcard.exception.ExistCardException;
 import vr.authorizer.domain.createcard.exception.InvalidCardRequestException;
@@ -15,16 +16,18 @@ import java.util.Optional;
 public class CreateCardService {
 
     private final CardRepository cardRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public CardData process(CardData cardData) throws InvalidCardRequestException, ExistCardException {
+    public Card process(CardData cardData) throws InvalidCardRequestException, ExistCardException {
         Optional.ofNullable(cardData).orElseThrow(InvalidCardRequestException::new);
+        Optional.ofNullable(cardData.getNumber()).orElseThrow(InvalidCardRequestException::new);
+        Optional.ofNullable(cardData.getPassword()).orElseThrow(InvalidCardRequestException::new);
 
         var card = cardRepository.findCardByNumber(cardData.getNumber());
         card.ifPresent(e -> {
             throw new ExistCardException(cardData);
         });
 
-        cardRepository.save(Card.fromCardData(cardData));
-        return cardData;
+        return cardRepository.save(Card.fromNumberAndPassword(cardData.getNumber(), passwordEncoder.encode(cardData.getPassword())));
     }
 }
