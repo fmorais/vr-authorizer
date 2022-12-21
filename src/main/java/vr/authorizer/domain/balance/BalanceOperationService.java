@@ -28,7 +28,7 @@ public class BalanceOperationService {
 
         if (!isPositiveBalance) throw new InsufficientFundsException();
 
-        return cardBalanceRepository.save(CardBalance.credit(card, amount));
+        return cardBalanceRepository.save(CardBalance.debit(card, amount));
     }
 
     public BigDecimal getBalance(Card card) {

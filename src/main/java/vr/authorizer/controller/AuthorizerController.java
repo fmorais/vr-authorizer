@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import vr.authorizer.domain.createcard.CreateCardService;
 import vr.authorizer.domain.createcard.model.CardData;
 import vr.authorizer.domain.transaction.TransactionService;
+import vr.authorizer.domain.transaction.model.CardTransaction;
 
 import java.math.RoundingMode;
 
@@ -26,5 +27,10 @@ public class AuthorizerController {
     public ResponseEntity<String> cardBalance(@PathVariable(name = "numeroCartao") String cardNumber) {
         var balance = transactionService.obtainBalance(cardNumber);
         return ResponseEntity.ok(balance.setScale(2, RoundingMode.UNNECESSARY).toString());
+    }
+
+    @PostMapping("/transacoes")
+    public ResponseEntity<String> cardTransaction(@RequestBody CardTransaction cardTransaction) {
+        return ResponseEntity.ok(transactionService.doTransaction(cardTransaction));
     }
 }

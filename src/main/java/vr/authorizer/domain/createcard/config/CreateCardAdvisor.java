@@ -15,7 +15,7 @@ public class CreateCardAdvisor {
     @ResponseBody
     @ExceptionHandler(InvalidCardRequestException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String employeeNotFoundHandler(InvalidCardRequestException ex) {
+    String invalidCardRequestExceptionHandler(InvalidCardRequestException ex) {
         return ex.getMessage();
     }
 
