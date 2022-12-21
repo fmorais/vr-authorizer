@@ -32,7 +32,8 @@ public class BalanceOperationService {
     }
 
     public BigDecimal getBalance(Card card) {
-        var debitAmount = cardBalanceRepository.sumDebitAmountByCard(card);
+        var debitAmount = Optional.ofNullable(cardBalanceRepository.sumDebitAmountByCard(card))
+                .orElse(BigDecimal.ZERO);
         var creditAmount = cardBalanceRepository.sumCreditAmountByCard(card);
         return creditAmount.subtract(debitAmount);
     }
